@@ -1,7 +1,7 @@
 // GroCoin Platform Token BEP20                                               
 //                                                 
 // TG: https://t.me/LeGroCoin
-// Web: https://grocoin.pages.dev/
+// Web: https://www.grocoin.info/
 // SPDX-License-Identifier: MIT
 //
 // "Groland, je mourrirai pour toi"
