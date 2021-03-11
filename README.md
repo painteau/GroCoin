@@ -10,4 +10,4 @@ a tiny blockchain for a big coin
 
 
 ### Transaction fees
-- 1,5% transaction tax fee (1% is automatically redistributed proportionnally among all coin holders & 0,5% is automatically burned)
+- 1% transaction tax fee (69% are automatically redistributed proportionnally among all coin holders, 30% is automatically burned, and 1% goes to our Président)
