@@ -10,6 +10,4 @@ a tiny blockchain for a big coin
 
 
 ### Transaction fees
-- 1% transaction tax fee
-- 70% of a transaction tax is automatically redistributed proportionnally among all coin holders
-- 30% of a transaction tax is automatically burned
+- 1,5% transaction tax fee (1% is automatically redistributed proportionnally among all coin holders & 0,5% is automatically burned)
