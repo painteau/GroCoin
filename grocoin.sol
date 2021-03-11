@@ -472,15 +472,15 @@ contract GroCoinToken is Context, IBEP20, Ownable {
     uint256 private constant _DECIMALFACTOR = 10 ** uint256(_DECIMALS);
     uint256 private constant _GRANULARITY = 100;
     
-    uint256 private _tTotal = 69696969 * _DECIMALFACTOR;
+    uint256 private _tTotal = 6969696969 * _DECIMALFACTOR;
     uint256 private _rTotal = (_MAX - (_MAX % _tTotal));
     
     uint256 private _tFeeTotal;
     uint256 private _tBurnTotal;
     
-    uint256 private constant     _TAX_FEE = 35;
-    uint256 private constant    _BURN_FEE = 15;
-    uint256 private constant _MAX_TX_SIZE = 69696969 * _DECIMALFACTOR;
+    uint256 private constant     _TAX_FEE = 100;
+    uint256 private constant    _BURN_FEE = 50;
+    uint256 private constant _MAX_TX_SIZE = 6969696969 * _DECIMALFACTOR;
 
     constructor () public {
         _rOwned[_msgSender()] = _rTotal;
