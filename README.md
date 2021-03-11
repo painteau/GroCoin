@@ -5,7 +5,7 @@ a tiny blockchain for a big coin
 
 ### Details
 - Built on Binance Smart Chain
-- 69 696 969 initial coin supply
+- 6 969 696 969 initial coin supply
 - 69 % of the initial supply will stay in the GroBanque
 
 
