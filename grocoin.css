@@ -1,0 +1,88 @@
+@charset "UTF-8";
+/* CSS Document */
+a:link {color:#00FF69;text-decoration:none;}      /* unvisited link */
+a:hover {color:#FF7A02;border-bottom:5px solid #FF00B4; cursor:url("images/bvs.jpg"),auto;}  /* mouse over link */
+a:active {color:#790002;}  /* selected link */
+a:visited {color:#FF0000;}
+body {
+	background-image: url("images/Made_in_Groland_2012_logo.png");
+	background-color: #00FFF1;
+	font-family:Impact, Times, "Franklin Gothic Bold", "Arial Black", sans-serif;
+	font-size:200%;
+	color:blue;
+	cursor:url(images/transparent-mouse-cursor-12.png),auto;
+}
+p	{
+	text-indent:hanging;
+}
+h1 {
+	color:red;
+    font-family: "Times New Roman", Times;
+	text-align:center;
+	text-decoration:underline;
+	text-transform:uppercase;
+}
+img { 
+   background:#FF8800;
+   border: 20px #DF489D;
+}
+#mainText {
+	cursor:auto;
+	position:relative;
+	margin-bottom:50px;
+	padding:25px;
+	width: 800px; 
+	background-color:black;
+	margin: 50px auto;
+	text-align: left;
+    font-family: Times;
+	box-shadow: 15px 15px 15px #3AA468;
+	border-radius: 22px;
+	border: 20px double;
+}
+
+
+/* I stole this from http://visualidiot.com/articles/css3 It recreates the old <blink> tag.*/
+
+.blink {
+    -webkit-animation: blink .75s linear infinite;
+    -moz-animation: blink .75s linear infinite;
+    -ms-animation: blink .75s linear infinite;
+    -o-animation: blink .75s linear infinite;
+    animation: blink .75s linear infinite;
+}
+
+@-webkit-keyframes blink {
+    0% { opacity: 1; }
+    50% { opacity: 1; }
+    50.01% { opacity: 0; }
+    100% { opacity: 0; }
+}
+
+@-moz-keyframes blink {
+    0% { opacity: 1; }
+    50% { opacity: 1; }
+    50.01% { opacity: 0; }
+    100% { opacity: 0; }
+}
+
+@-ms-keyframes blink {
+    0% { opacity: 1; }
+    50% { opacity: 1; }
+    50.01% { opacity: 0; }
+    100% { opacity: 0; }
+}
+
+@-o-keyframes blink {
+    0% { opacity: 1; }
+    50% { opacity: 1; }
+    50.01% { opacity: 0; }
+    100% { opacity: 0; }
+}
+
+@keyframes blink {
+    0% { opacity: 1; }
+    50% { opacity: 1; }
+    50.01% { opacity: 0; }
+    100% { opacity: 0; }
+}
