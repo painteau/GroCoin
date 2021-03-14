@@ -5,18 +5,19 @@ a:hover {color:#FF7A02;border-bottom:5px solid #FF00B4; cursor:url("images/bvs.j
 a:active {color:#790002;}  /* selected link */
 a:visited {color:#FF0000;}
 body {
-	background-image: url("images/Made_in_Groland_2012_logo.png");
+	background-image: url("https://media.giphy.com/media/GlFncSeHqt3HVcupyb/source.gif");
 	background-color: #00FFF1;
 	font-family:Impact, Times, "Franklin Gothic Bold", "Arial Black", sans-serif;
 	font-size:200%;
 	color:blue;
-	cursor:url(images/transparent-mouse-cursor-12.png),auto;
+	cursor: url("./images/xt.gif"), default;
 }
 p	{
 	text-indent:hanging;
+    cursor: url("./images/xt.gif"), default;
 }
 h1 {
-	color:red;
+    color: black;
     font-family: "Times New Roman", Times;
 	text-align:center;
 	text-decoration:underline;
@@ -25,20 +26,24 @@ h1 {
 img { 
    background:#FF8800;
    border: 20px #DF489D;
+   cursor: url("./images/xt.gif"), default;
 }
 #mainText {
 	cursor:auto;
 	position:relative;
 	margin-bottom:50px;
 	padding:25px;
-	width: 800px; 
+	width: 1200px; 
 	background-color:black;
-	margin: 50px auto;
+	margin: 150px auto;
 	text-align: left;
     font-family: Times;
 	box-shadow: 15px 15px 15px #3AA468;
 	border-radius: 22px;
 	border: 20px double;
+    background-image: linear-gradient(to left, violet, indigo, blue, green, yellow, orange, red);
+
+cursor: url("./images/xt.gif"), default;
 }
 
 
