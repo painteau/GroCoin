@@ -10,11 +10,11 @@ body {
 	font-family:Impact, Times, "Franklin Gothic Bold", "Arial Black", sans-serif;
 	font-size:200%;
 	color:blue;
-	cursor: url("./images/xt.gif"), default;
+	cursor: url("./images/UFO3.gif"), default;
 }
 p	{
 	text-indent:hanging;
-    cursor: url("./images/xt.gif"), default;
+        cursor: url("./images/UFO3.gif"), default;
 }
 h1 {
     color: black;
@@ -22,11 +22,12 @@ h1 {
 	text-align:center;
 	text-decoration:underline;
 	text-transform:uppercase;
+        cursor: url("./images/UFO3.gif"), default;
 }
 img { 
    background:#FF8800;
    border: 20px #DF489D;
-   cursor: url("./images/xt.gif"), default;
+    cursor: url("./images/UFO3.gif"), default;
 }
 #mainText {
 	cursor:auto;
@@ -42,8 +43,8 @@ img {
 	border-radius: 22px;
 	border: 20px double;
     background-image: linear-gradient(to left, violet, indigo, blue, green, yellow, orange, red);
+    cursor: url("./images/UFO3.gif"), default;
 
-cursor: url("./images/xt.gif"), default;
 }
 
 
