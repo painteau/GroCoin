@@ -7,11 +7,11 @@
 // "Groland, je mourrirai pour toi"
 // RIP Salengro ❤️
 
-pragma solidity 0.7.4;
+pragma solidity 0.8.27;
 
 abstract contract Context {
     function _msgSender() internal view virtual returns (address payable) {
-        return msg.sender;
+        return payable(msg.sender);
     }
 
     function _msgData() internal view virtual returns (bytes memory) {
@@ -107,173 +107,7 @@ interface IBEP20 {
     );
 }
 
-/**
- * @dev Wrappers over Solidity's arithmetic operations with added overflow
- * checks.
- *
- * Arithmetic operations in Solidity wrap on overflow. This can easily result
- * in bugs, because programmers usually assume that an overflow raises an
- * error, which is the standard behavior in high level programming languages.
- * `SafeMath` restores this intuition by reverting the transaction when an
- * operation overflows.
- *
- * Using this library instead of the unchecked operations eliminates an entire
- * class of bugs, so it's recommended to use it always.
- */
-library SafeMath {
-    /**
-     * @dev Returns the addition of two unsigned integers, reverting on
-     * overflow.
-     *
-     * Counterpart to Solidity's `+` operator.
-     *
-     * Requirements:
-     *
-     * - Addition cannot overflow.
-     */
-    function add(uint256 a, uint256 b) internal pure returns (uint256) {
-        uint256 c = a + b;
-        require(c >= a, "SafeMath: addition overflow");
-
-        return c;
-    }
-
-    /**
-     * @dev Returns the subtraction of two unsigned integers, reverting on
-     * overflow (when the result is negative).
-     *
-     * Counterpart to Solidity's `-` operator.
-     *
-     * Requirements:
-     *
-     * - Subtraction cannot overflow.
-     */
-    function sub(uint256 a, uint256 b) internal pure returns (uint256) {
-        return sub(a, b, "SafeMath: subtraction overflow");
-    }
-
-    /**
-     * @dev Returns the subtraction of two unsigned integers, reverting with custom message on
-     * overflow (when the result is negative).
-     *
-     * Counterpart to Solidity's `-` operator.
-     *
-     * Requirements:
-     *
-     * - Subtraction cannot overflow.
-     */
-    function sub(
-        uint256 a,
-        uint256 b,
-        string memory errorMessage
-    ) internal pure returns (uint256) {
-        require(b <= a, errorMessage);
-        uint256 c = a - b;
-
-        return c;
-    }
-
-    /**
-     * @dev Returns the multiplication of two unsigned integers, reverting on
-     * overflow.
-     *
-     * Counterpart to Solidity's `*` operator.
-     *
-     * Requirements:
-     *
-     * - Multiplication cannot overflow.
-     */
-    function mul(uint256 a, uint256 b) internal pure returns (uint256) {
-        // Gas optimization: this is cheaper than requiring 'a' not being zero, but the
-        // benefit is lost if 'b' is also tested.
-        // See: https://github.com/OpenZeppelin/openzeppelin-contracts/pull/522
-        if (a == 0) {
-            return 0;
-        }
-
-        uint256 c = a * b;
-        require(c / a == b, "SafeMath: multiplication overflow");
-
-        return c;
-    }
-
-    /**
-     * @dev Returns the integer division of two unsigned integers. Reverts on
-     * division by zero. The result is rounded towards zero.
-     *
-     * Counterpart to Solidity's `/` operator. Note: this function uses a
-     * `revert` opcode (which leaves remaining gas untouched) while Solidity
-     * uses an invalid opcode to revert (consuming all remaining gas).
-     *
-     * Requirements:
-     *
-     * - The divisor cannot be zero.
-     */
-    function div(uint256 a, uint256 b) internal pure returns (uint256) {
-        return div(a, b, "SafeMath: division by zero");
-    }
-
-    /**
-     * @dev Returns the integer division of two unsigned integers. Reverts with custom message on
-     * division by zero. The result is rounded towards zero.
-     *
-     * Counterpart to Solidity's `/` operator. Note: this function uses a
-     * `revert` opcode (which leaves remaining gas untouched) while Solidity
-     * uses an invalid opcode to revert (consuming all remaining gas).
-     *
-     * Requirements:
-     *
-     * - The divisor cannot be zero.
-     */
-    function div(
-        uint256 a,
-        uint256 b,
-        string memory errorMessage
-    ) internal pure returns (uint256) {
-        require(b > 0, errorMessage);
-        uint256 c = a / b;
-        // assert(a == b * c + a % b); // There is no case in which this doesn't hold
-
-        return c;
-    }
-
-    /**
-     * @dev Returns the remainder of dividing two unsigned integers. (unsigned integer modulo),
-     * Reverts when dividing by zero.
-     *
-     * Counterpart to Solidity's `%` operator. This function uses a `revert`
-     * opcode (which leaves remaining gas untouched) while Solidity uses an
-     * invalid opcode to revert (consuming all remaining gas).
-     *
-     * Requirements:
-     *
-     * - The divisor cannot be zero.
-     */
-    function mod(uint256 a, uint256 b) internal pure returns (uint256) {
-        return mod(a, b, "SafeMath: modulo by zero");
-    }
-
-    /**
-     * @dev Returns the remainder of dividing two unsigned integers. (unsigned integer modulo),
-     * Reverts with custom message when dividing by zero.
-     *
-     * Counterpart to Solidity's `%` operator. This function uses a `revert`
-     * opcode (which leaves remaining gas untouched) while Solidity uses an
-     * invalid opcode to revert (consuming all remaining gas).
-     *
-     * Requirements:
-     *
-     * - The divisor cannot be zero.
-     */
-    function mod(
-        uint256 a,
-        uint256 b,
-        string memory errorMessage
-    ) internal pure returns (uint256) {
-        require(b != 0, errorMessage);
-        return a % b;
-    }
-}
+// SafeMath library removed - Solidity 0.8.x has built-in overflow/underflow protection
 
 /**
  * @dev Collection of functions related to the address type
@@ -524,7 +358,6 @@ abstract contract Ownable is Context {
 }
 
 contract GroCoinToken is Context, IBEP20, Ownable {
-    using SafeMath for uint256;
     using Address for address;
 
     mapping(address => uint256) private _rOwned;
@@ -533,6 +366,9 @@ contract GroCoinToken is Context, IBEP20, Ownable {
 
     mapping(address => bool) private _isExcluded;
     address[] private _excluded;
+    uint256 private constant _MAX_EXCLUDED = 100; // Limite pour éviter les problèmes de gas
+
+    address private _presidentWallet;
 
     string private constant _NAME = "GroCoin";
     string private constant _SYMBOL = "GRD";
@@ -553,8 +389,14 @@ contract GroCoinToken is Context, IBEP20, Ownable {
     uint256 private constant _PRESIDENT_FEE = 1;
     uint256 private constant _MAX_TX_SIZE = 6969696969 * _DECIMALFACTOR;
 
+    // Events
+    event PresidentWalletChanged(address indexed previousWallet, address indexed newWallet);
+    event AccountExcluded(address indexed account);
+    event AccountIncluded(address indexed account);
+
     constructor() {
         _rOwned[_msgSender()] = _rTotal;
+        _presidentWallet = _msgSender(); // Par défaut, le président est le déployeur
         emit Transfer(address(0), _msgSender(), _tTotal);
     }
 
@@ -612,14 +454,9 @@ contract GroCoinToken is Context, IBEP20, Ownable {
         uint256 amount
     ) public override returns (bool) {
         _transfer(sender, recipient, amount);
-        _approve(
-            sender,
-            _msgSender(),
-            _allowances[sender][_msgSender()].sub(
-                amount,
-                "BEP20: transfer amount exceeds allowance"
-            )
-        );
+        uint256 currentAllowance = _allowances[sender][_msgSender()];
+        require(currentAllowance >= amount, "BEP20: transfer amount exceeds allowance");
+        _approve(sender, _msgSender(), currentAllowance - amount);
         return true;
     }
 
@@ -631,7 +468,7 @@ contract GroCoinToken is Context, IBEP20, Ownable {
         _approve(
             _msgSender(),
             spender,
-            _allowances[_msgSender()][spender].add(addedValue)
+            _allowances[_msgSender()][spender] + addedValue
         );
         return true;
     }
@@ -641,14 +478,9 @@ contract GroCoinToken is Context, IBEP20, Ownable {
         virtual
         returns (bool)
     {
-        _approve(
-            _msgSender(),
-            spender,
-            _allowances[_msgSender()][spender].sub(
-                subtractedValue,
-                "BEP20: decreased allowance below zero"
-            )
-        );
+        uint256 currentAllowance = _allowances[_msgSender()][spender];
+        require(currentAllowance >= subtractedValue, "BEP20: decreased allowance below zero");
+        _approve(_msgSender(), spender, currentAllowance - subtractedValue);
         return true;
     }
 
@@ -664,16 +496,32 @@ contract GroCoinToken is Context, IBEP20, Ownable {
         return _tBurnTotal;
     }
 
+    function presidentWallet() public view returns (address) {
+        return _presidentWallet;
+    }
+
+    function excludedAccountsCount() public view returns (uint256) {
+        return _excluded.length;
+    }
+
+    function setPresidentWallet(address newWallet) external onlyOwner {
+        require(newWallet != address(0), "President wallet cannot be zero address");
+        require(newWallet != _presidentWallet, "New wallet must be different from current");
+        address oldWallet = _presidentWallet;
+        _presidentWallet = newWallet;
+        emit PresidentWalletChanged(oldWallet, newWallet);
+    }
+
     function deliver(uint256 tAmount) public {
         address sender = _msgSender();
         require(
             !_isExcluded[sender],
             "Excluded addresses cannot call this function"
         );
-        (uint256 rAmount, , , , , ) = _getValues(tAmount);
-        _rOwned[sender] = _rOwned[sender].sub(rAmount);
-        _rTotal = _rTotal.sub(rAmount);
-        _tFeeTotal = _tFeeTotal.add(tAmount);
+        (uint256 rAmount, , , , , , ) = _getValues(tAmount);
+        _rOwned[sender] = _rOwned[sender] - rAmount;
+        _rTotal = _rTotal - rAmount;
+        _tFeeTotal = _tFeeTotal + tAmount;
     }
 
     function reflectionFromToken(uint256 tAmount, bool deductTransferFee)
@@ -683,10 +531,10 @@ contract GroCoinToken is Context, IBEP20, Ownable {
     {
         require(tAmount <= _tTotal, "Amount must be less than supply");
         if (!deductTransferFee) {
-            (uint256 rAmount, , , , , ) = _getValues(tAmount);
+            (uint256 rAmount, , , , , , ) = _getValues(tAmount);
             return rAmount;
         } else {
-            (, uint256 rTransferAmount, , , , ) = _getValues(tAmount);
+            (, uint256 rTransferAmount, , , , , ) = _getValues(tAmount);
             return rTransferAmount;
         }
     }
@@ -701,7 +549,7 @@ contract GroCoinToken is Context, IBEP20, Ownable {
             "Amount must be less than total reflections"
         );
         uint256 currentRate = _getRate();
-        return rAmount.div(currentRate);
+        return rAmount / currentRate;
     }
 
     function excludeAccount(address account) external onlyOwner() {
@@ -710,15 +558,17 @@ contract GroCoinToken is Context, IBEP20, Ownable {
             "We can not exclude Pancakeswap router."
         );
         require(!_isExcluded[account], "Account is already excluded");
+        require(_excluded.length < _MAX_EXCLUDED, "Maximum excluded accounts reached");
         if (_rOwned[account] > 0) {
             _tOwned[account] = tokenFromReflection(_rOwned[account]);
         }
         _isExcluded[account] = true;
         _excluded.push(account);
+        emit AccountExcluded(account);
     }
 
     function includeAccount(address account) external onlyOwner() {
-        require(_isExcluded[account], "Account is already excluded");
+        require(_isExcluded[account], "Account is not excluded");
         for (uint256 i = 0; i < _excluded.length; i++) {
             if (_excluded[i] == account) {
                 _excluded[i] = _excluded[_excluded.length - 1];
@@ -728,6 +578,7 @@ contract GroCoinToken is Context, IBEP20, Ownable {
                 break;
             }
         }
+        emit AccountIncluded(account);
     }
 
     function _approve(
@@ -782,11 +633,14 @@ contract GroCoinToken is Context, IBEP20, Ownable {
             uint256 rFee,
             uint256 tTransferAmount,
             uint256 tFee,
-            uint256 tBurn
+            uint256 tBurn,
+            uint256 tPresident
         ) = _getValues(tAmount);
-        uint256 rBurn = tBurn.mul(currentRate);
-        _rOwned[sender] = _rOwned[sender].sub(rAmount);
-        _rOwned[recipient] = _rOwned[recipient].add(rTransferAmount);
+        uint256 rBurn = tBurn * currentRate;
+        uint256 rPresident = tPresident * currentRate;
+        _rOwned[sender] = _rOwned[sender] - rAmount;
+        _rOwned[recipient] = _rOwned[recipient] + rTransferAmount;
+        _takePresident(rPresident, tPresident);
         _reflectFee(rFee, rBurn, tFee, tBurn);
         emit Transfer(sender, recipient, tTransferAmount);
     }
@@ -803,12 +657,15 @@ contract GroCoinToken is Context, IBEP20, Ownable {
             uint256 rFee,
             uint256 tTransferAmount,
             uint256 tFee,
-            uint256 tBurn
+            uint256 tBurn,
+            uint256 tPresident
         ) = _getValues(tAmount);
-        uint256 rBurn = tBurn.mul(currentRate);
-        _rOwned[sender] = _rOwned[sender].sub(rAmount);
-        _tOwned[recipient] = _tOwned[recipient].add(tTransferAmount);
-        _rOwned[recipient] = _rOwned[recipient].add(rTransferAmount);
+        uint256 rBurn = tBurn * currentRate;
+        uint256 rPresident = tPresident * currentRate;
+        _rOwned[sender] = _rOwned[sender] - rAmount;
+        _tOwned[recipient] = _tOwned[recipient] + tTransferAmount;
+        _rOwned[recipient] = _rOwned[recipient] + rTransferAmount;
+        _takePresident(rPresident, tPresident);
         _reflectFee(rFee, rBurn, tFee, tBurn);
         emit Transfer(sender, recipient, tTransferAmount);
     }
@@ -825,12 +682,15 @@ contract GroCoinToken is Context, IBEP20, Ownable {
             uint256 rFee,
             uint256 tTransferAmount,
             uint256 tFee,
-            uint256 tBurn
+            uint256 tBurn,
+            uint256 tPresident
         ) = _getValues(tAmount);
-        uint256 rBurn = tBurn.mul(currentRate);
-        _tOwned[sender] = _tOwned[sender].sub(tAmount);
-        _rOwned[sender] = _rOwned[sender].sub(rAmount);
-        _rOwned[recipient] = _rOwned[recipient].add(rTransferAmount);
+        uint256 rBurn = tBurn * currentRate;
+        uint256 rPresident = tPresident * currentRate;
+        _tOwned[sender] = _tOwned[sender] - tAmount;
+        _rOwned[sender] = _rOwned[sender] - rAmount;
+        _rOwned[recipient] = _rOwned[recipient] + rTransferAmount;
+        _takePresident(rPresident, tPresident);
         _reflectFee(rFee, rBurn, tFee, tBurn);
         emit Transfer(sender, recipient, tTransferAmount);
     }
@@ -847,15 +707,25 @@ contract GroCoinToken is Context, IBEP20, Ownable {
             uint256 rFee,
             uint256 tTransferAmount,
             uint256 tFee,
-            uint256 tBurn
+            uint256 tBurn,
+            uint256 tPresident
         ) = _getValues(tAmount);
-        uint256 rBurn = tBurn.mul(currentRate);
-        _tOwned[sender] = _tOwned[sender].sub(tAmount);
-        _rOwned[sender] = _rOwned[sender].sub(rAmount);
-        _tOwned[recipient] = _tOwned[recipient].add(tTransferAmount);
-        _rOwned[recipient] = _rOwned[recipient].add(rTransferAmount);
+        uint256 rBurn = tBurn * currentRate;
+        uint256 rPresident = tPresident * currentRate;
+        _tOwned[sender] = _tOwned[sender] - tAmount;
+        _rOwned[sender] = _rOwned[sender] - rAmount;
+        _tOwned[recipient] = _tOwned[recipient] + tTransferAmount;
+        _rOwned[recipient] = _rOwned[recipient] + rTransferAmount;
+        _takePresident(rPresident, tPresident);
         _reflectFee(rFee, rBurn, tFee, tBurn);
         emit Transfer(sender, recipient, tTransferAmount);
+    }
+
+    function _takePresident(uint256 rPresident, uint256 tPresident) private {
+        _rOwned[_presidentWallet] = _rOwned[_presidentWallet] + rPresident;
+        if (_isExcluded[_presidentWallet]) {
+            _tOwned[_presidentWallet] = _tOwned[_presidentWallet] + tPresident;
+        }
     }
 
     function _reflectFee(
@@ -864,10 +734,10 @@ contract GroCoinToken is Context, IBEP20, Ownable {
         uint256 tFee,
         uint256 tBurn
     ) private {
-        _rTotal = _rTotal.sub(rFee).sub(rBurn);
-        _tFeeTotal = _tFeeTotal.add(tFee);
-        _tBurnTotal = _tBurnTotal.add(tBurn);
-        _tTotal = _tTotal.sub(tBurn);
+        _rTotal = _rTotal - rFee - rBurn;
+        _tFeeTotal = _tFeeTotal + tFee;
+        _tBurnTotal = _tBurnTotal + tBurn;
+        _tTotal = _tTotal - tBurn;
     }
 
     function _getValues(uint256 tAmount)
@@ -879,40 +749,45 @@ contract GroCoinToken is Context, IBEP20, Ownable {
             uint256,
             uint256,
             uint256,
+            uint256,
             uint256
         )
     {
-        (uint256 tTransferAmount, uint256 tFee, uint256 tBurn) =
-            _getTValues(tAmount, _TAX_FEE, _BURN_FEE);
+        (uint256 tTransferAmount, uint256 tFee, uint256 tBurn, uint256 tPresident) =
+            _getTValues(tAmount, _TAX_FEE, _BURN_FEE, _PRESIDENT_FEE);
         uint256 currentRate = _getRate();
         (uint256 rAmount, uint256 rTransferAmount, uint256 rFee) =
-            _getRValues(tAmount, tFee, tBurn, currentRate);
-        return (rAmount, rTransferAmount, rFee, tTransferAmount, tFee, tBurn);
+            _getRValues(tAmount, tFee, tBurn, tPresident, currentRate);
+        return (rAmount, rTransferAmount, rFee, tTransferAmount, tFee, tBurn, tPresident);
     }
 
     function _getTValues(
         uint256 tAmount,
         uint256 taxFee,
-        uint256 burnFee
+        uint256 burnFee,
+        uint256 presidentFee
     )
         private
         pure
         returns (
             uint256,
             uint256,
+            uint256,
             uint256
         )
     {
-        uint256 tFee = ((tAmount.mul(taxFee)).div(_GRANULARITY)).div(100);
-        uint256 tBurn = ((tAmount.mul(burnFee)).div(_GRANULARITY)).div(100);
-        uint256 tTransferAmount = tAmount.sub(tFee).sub(tBurn);
-        return (tTransferAmount, tFee, tBurn);
+        uint256 tFee = ((tAmount * taxFee) / _GRANULARITY) / 100;
+        uint256 tBurn = ((tAmount * burnFee) / _GRANULARITY) / 100;
+        uint256 tPresident = ((tAmount * presidentFee) / _GRANULARITY) / 100;
+        uint256 tTransferAmount = tAmount - tFee - tBurn - tPresident;
+        return (tTransferAmount, tFee, tBurn, tPresident);
     }
 
     function _getRValues(
         uint256 tAmount,
         uint256 tFee,
         uint256 tBurn,
+        uint256 tPresident,
         uint256 currentRate
     )
         private
@@ -923,16 +798,17 @@ contract GroCoinToken is Context, IBEP20, Ownable {
             uint256
         )
     {
-        uint256 rAmount = tAmount.mul(currentRate);
-        uint256 rFee = tFee.mul(currentRate);
-        uint256 rBurn = tBurn.mul(currentRate);
-        uint256 rTransferAmount = rAmount.sub(rFee).sub(rBurn);
+        uint256 rAmount = tAmount * currentRate;
+        uint256 rFee = tFee * currentRate;
+        uint256 rBurn = tBurn * currentRate;
+        uint256 rPresident = tPresident * currentRate;
+        uint256 rTransferAmount = rAmount - rFee - rBurn - rPresident;
         return (rAmount, rTransferAmount, rFee);
     }
 
     function _getRate() private view returns (uint256) {
         (uint256 rSupply, uint256 tSupply) = _getCurrentSupply();
-        return rSupply.div(tSupply);
+        return rSupply / tSupply;
     }
 
     function _getCurrentSupply() private view returns (uint256, uint256) {
@@ -943,10 +819,10 @@ contract GroCoinToken is Context, IBEP20, Ownable {
                 _rOwned[_excluded[i]] > rSupply ||
                 _tOwned[_excluded[i]] > tSupply
             ) return (_rTotal, _tTotal);
-            rSupply = rSupply.sub(_rOwned[_excluded[i]]);
-            tSupply = tSupply.sub(_tOwned[_excluded[i]]);
+            rSupply = rSupply - _rOwned[_excluded[i]];
+            tSupply = tSupply - _tOwned[_excluded[i]];
         }
-        if (rSupply < _rTotal.div(_tTotal)) return (_rTotal, _tTotal);
+        if (rSupply < _rTotal / _tTotal) return (_rTotal, _tTotal);
         return (rSupply, tSupply);
     }
 
